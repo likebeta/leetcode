@@ -4,6 +4,7 @@ import (
     "leetcode/helper"
 )
 
+// x 的 n 次幂
 func myPow(x float64, n int) float64 {
     if n >= 0 {
         return recursion(x, n)

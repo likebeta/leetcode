@@ -4,6 +4,7 @@ import (
 	"leetcode/helper"
 )
 
+// 最小栈
 type MinStack struct {
 	dataArr []int
 	minArr  []int
