@@ -1,7 +1,7 @@
 package main
 
 import (
-    "fmt"
+    "leetcode/helper"
 )
 
 // 无重复字符的最长子串
@@ -29,7 +29,7 @@ func lengthOfLongestSubstring(s string) int {
 }
 
 func main() {
-    fmt.Println(3 == lengthOfLongestSubstring("abcabcbb"))
-    fmt.Println(1 == lengthOfLongestSubstring("bbbbb"))
-    fmt.Println(3 == lengthOfLongestSubstring("pwwkew"))
+    helper.Assert(3 == lengthOfLongestSubstring("abcabcbb"))
+    helper.Assert(1 == lengthOfLongestSubstring("bbbbb"))
+    helper.Assert(3 == lengthOfLongestSubstring("pwwkew"))
 }

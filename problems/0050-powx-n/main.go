@@ -1,7 +1,7 @@
 package main
 
 import (
-    "fmt"
+    "leetcode/helper"
 )
 
 func myPow(x float64, n int) float64 {
@@ -25,12 +25,12 @@ func recursion(x float64, n int) float64 {
 
 func myPow2(x float64, n int) float64 {
     if n >= 0 {
-        return helper(x, n)
+        return process(x, n)
     }
-    return 1.0 / helper(x, -n)
+    return 1.0 / process(x, -n)
 }
 
-func helper(x float64, n int) float64 {
+func process(x float64, n int) float64 {
     ans := 1.0
     pow := x
     for n > 0 {
@@ -44,7 +44,7 @@ func helper(x float64, n int) float64 {
 }
 
 func main() {
-    fmt.Println(myPow(2.0, 10), myPow2(2.0, 10))
-    fmt.Println(myPow(2.1, 3), myPow2(2.1, 3))
-    fmt.Println(myPow(2.0, -2), myPow2(2.0, -2))
+    helper.Log(myPow(2.0, 10), myPow2(2.0, 10))
+    helper.Log(myPow(2.1, 3), myPow2(2.1, 3))
+    helper.Log(myPow(2.0, -2), myPow2(2.0, -2))
 }
