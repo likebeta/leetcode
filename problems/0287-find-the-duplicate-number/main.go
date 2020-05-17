@@ -24,7 +24,32 @@ func findDuplicate(nums []int) int {
 	return slow
 }
 
+func findDuplicate2(nums []int) int {
+	// 二分查找，限制1和n必须存在时方法有效
+	left, right := 1, len(nums)-1
+	for left < right {
+		mid := left + (right-left)/2
+		var count int
+		for i := range nums {
+			if nums[i] <= mid {
+				count++
+			}
+		}
+		if count > mid {
+			right = mid
+		} else {
+			left = mid + 1
+		}
+	}
+	return left
+}
+
 func main() {
-	helper.Assert(findDuplicate([]int{1, 3, 4, 2, 2}) == 2)
-	helper.Assert(findDuplicate([]int{3, 1, 3, 4, 2}) == 3)
+	var arr []int
+	arr = []int{1, 3, 4, 2, 2}
+	helper.Assert(findDuplicate(arr) == 2)
+	helper.Assert(findDuplicate2(arr) == 2)
+	arr = []int{3, 1, 3, 4, 2}
+	helper.Assert(findDuplicate(arr) == 3)
+	helper.Assert(findDuplicate2(arr) == 3)
 }
