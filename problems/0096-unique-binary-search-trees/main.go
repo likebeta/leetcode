@@ -5,7 +5,7 @@ import (
 )
 
 // 不同的二叉搜索树
-func numtrees(n int) int {
+func numTrees(n int) int {
 	// dp(n) = f(1) + f(2) + ... + f(i) + ... + f(n)
 	// f(i) = dp(i-1)*dp(n-i)
 	dp := make([]int, n+1, n+1)
@@ -19,5 +19,6 @@ func numtrees(n int) int {
 }
 
 func main() {
-	helper.Assert(numtrees(3) == 5)
+	helper.Assert(numTrees(3) == 5)
+	helper.Assert(numTrees(5) == 42)
 }
