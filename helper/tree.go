@@ -42,6 +42,9 @@ func (head *TreeNode) ToArray() []*int {
 }
 
 func (head *TreeNode) Dump() string {
+	if head == nil {
+		return "[]"
+	}
 	arr := head.ToArray()
 	data, err := json.Marshal(arr)
 	if err != nil {
