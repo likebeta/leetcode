@@ -16,3 +16,9 @@ func Log(a ...interface{}) {
 		log.Panic(n, err)
 	}
 }
+
+func Print(a ...interface{}) {
+	if n, err := fmt.Print(a...); err != nil {
+		log.Panic(n, err)
+	}
+}
