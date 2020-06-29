@@ -32,7 +32,40 @@ func maxHeapify(a []int, i, heapSize int) {
 	}
 }
 
+func findKthLargest2(nums []int, k int) int {
+	for i := k / 2; i >= 0; i-- {
+		minHeapify(nums, i, k)
+	}
+	N := len(nums)
+	for i := k; i < N; i++ {
+		if nums[i] > nums[0] {
+			nums[0], nums[i] = nums[i], nums[0]
+			minHeapify(nums, 0, k)
+		}
+	}
+	return nums[0]
+}
+
+func minHeapify(a []int, i, heapSize int) {
+	l, r, min := i*2+1, i*2+2, i
+	if l < heapSize && a[l] < a[min] {
+		min = l
+	}
+	if r < heapSize && a[r] < a[min] {
+		min = r
+	}
+	if min != i {
+		a[i], a[min] = a[min], a[i]
+		minHeapify(a, min, heapSize)
+	}
+}
+
+func testOne(arr []int, k int, ans int) {
+	helper.Log(findKthLargest(arr, k) == ans)
+	helper.Log(findKthLargest2(arr, k) == ans)
+}
+
 func main() {
-	helper.Assert(findKthLargest([]int{3, 2, 1, 5, 6, 4}, 5) == 2)
-	helper.Assert(findKthLargest([]int{3, 2, 3, 1, 2, 4, 5, 5, 6}, 4) == 4)
+	testOne([]int{3, 2, 1, 5, 6, 4}, 5, 2)
+	testOne([]int{3, 2, 3, 1, 2, 4, 5, 5, 6}, 4, 4)
 }
