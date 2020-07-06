@@ -32,28 +32,23 @@ func uniquePathsWithObstacles2(obstacleGrid [][]int) int {
 	}
 
 	row, col := len(obstacleGrid), len(obstacleGrid[0])
-	dp := make([]int, col)
-	for i := 0; i < col; i++ {
-		if obstacleGrid[0][i] != 0 {
+	dp := make([]int, col+1)
+	for j := 1; j <= col; j++ {
+		if obstacleGrid[0][j-1] != 0 {
 			break
 		}
-		dp[i] = 1
+		dp[j] = 1
 	}
 	for i := 1; i < row; i++ {
-		if dp[0] == 1 && obstacleGrid[i][0] == 0 {
-			dp[0] = 1
-		} else {
-			dp[0] = 0
-		}
-		for j := 1; j < col; j++ {
-			if obstacleGrid[i][j] == 0 {
+		for j := 1; j <= col; j++ {
+			if obstacleGrid[i][j-1] == 0 {
 				dp[j] += dp[j-1]
 			} else {
 				dp[j] = 0
 			}
 		}
 	}
-	return dp[col-1]
+	return dp[col]
 }
 
 func testOne(matrix [][]int, ans int) {
