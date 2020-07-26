@@ -25,7 +25,7 @@ func longestIncreasingPath(matrix [][]int) int {
 		memo[row][col]++
 		for _, dir := range dirs {
 			r, c := row+dir[0], col+dir[1]
-			if r >= 0 && r < rows && c >= 0 && c < cols && matrix[r][c] < matrix[row][col] {
+			if r >= 0 && r < rows && c >= 0 && c < cols && matrix[r][c] > matrix[row][col] {
 				memo[row][col] = max(memo[row][col], dfs(r, c)+1)
 			}
 		}
@@ -39,6 +39,57 @@ func longestIncreasingPath(matrix [][]int) int {
 	return ans
 }
 
+func longestIncreasingPath2(matrix [][]int) int {
+	if len(matrix) == 0 || len(matrix[0]) == 0 {
+		return 0
+	}
+	dirs := [4][2]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}
+	rows, cols := len(matrix), len(matrix[0])
+	inDegree := make([][]int, rows)
+	for i := 0; i < rows; i++ {
+		inDegree[i] = make([]int, cols)
+	}
+	for i := 0; i < rows; i++ {
+		for j := 0; j < cols; j++ {
+			for _, dir := range dirs {
+				r, c := i+dir[0], j+dir[1]
+				if r >= 0 && r < rows && c >= 0 && c < cols && matrix[r][c] < matrix[i][j] {
+					inDegree[i][j]++
+				}
+			}
+		}
+	}
+
+	var queue [][]int
+	for i := 0; i < rows; i++ {
+		for j := 0; j < cols; j++ {
+			if inDegree[i][j] == 0 {
+				queue = append(queue, []int{i, j})
+			}
+		}
+	}
+	ans := 0
+	for len(queue) != 0 {
+		ans++
+		size := len(queue)
+		for i := 0; i < size; i++ {
+			cell := queue[0]
+			queue = queue[1:]
+			row, column := cell[0], cell[1]
+			for _, dir := range dirs {
+				r, c := row+dir[0], column+dir[1]
+				if r >= 0 && r < rows && c >= 0 && c < cols && matrix[r][c] > matrix[row][column] {
+					inDegree[r][c]--
+					if inDegree[r][c] == 0 {
+						queue = append(queue, []int{r, c})
+					}
+				}
+			}
+		}
+	}
+	return ans
+}
+
 func max(a, b int) int {
 	if a < b {
 		return b
@@ -46,18 +97,21 @@ func max(a, b int) int {
 	return a
 }
 
+func testOne(matrix [][]int, ans int) {
+	helper.Assert(longestIncreasingPath(matrix) == ans)
+	helper.Assert(longestIncreasingPath2(matrix) == ans)
+
+}
+
 func main() {
-	var matrix [][]int
-	matrix = [][]int{
+	testOne([][]int{
 		{9, 9, 4},
 		{6, 6, 8},
 		{2, 1, 1},
-	}
-	helper.Assert(longestIncreasingPath(matrix) == 4)
-	matrix = [][]int{
+	}, 4)
+	testOne([][]int{
 		{3, 4, 5},
 		{3, 2, 6},
 		{2, 2, 1},
-	}
-	helper.Assert(longestIncreasingPath(matrix) == 4)
+	}, 4)
 }
