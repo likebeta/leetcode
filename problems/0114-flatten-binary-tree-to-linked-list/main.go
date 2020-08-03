@@ -28,12 +28,67 @@ func preOrder(root *TreeNode) *TreeNode {
 	}
 }
 
+func flatten2(root *TreeNode) {
+	curr := root
+	for curr != nil {
+		if curr.Left == nil {
+			curr = curr.Right
+			continue
+		}
+		leftMostRight := curr.Left
+		for leftMostRight.Right != nil && leftMostRight.Right != curr {
+			leftMostRight = leftMostRight.Right
+		}
+		if leftMostRight.Right == curr {
+			leftMostRight.Right, curr.Right, curr.Left = curr.Right, curr.Left, nil
+			curr = leftMostRight.Right
+		} else {
+			leftMostRight.Right = curr
+			curr = curr.Left
+		}
+	}
+}
+
+func flatten3(root *TreeNode) {
+	curr := root
+	for curr != nil {
+		if curr.Left != nil {
+			next := curr.Left
+			leftMostRight := next
+			for leftMostRight.Right != nil {
+				leftMostRight = leftMostRight.Right
+			}
+			leftMostRight.Right = curr.Right
+			curr.Left, curr.Right = nil, next
+		}
+		curr = curr.Right
+	}
+}
+
 func testOne(bfs string, ans string) {
-	t := helper.NewTree(bfs)
-	t.Print(6)
-	flatten(t)
-	t.Print(6)
-	helper.Assert(t.Dump() == ans)
+	{
+		t := helper.NewTree(bfs)
+		t.Print(6)
+		flatten(t)
+		t.Print(6)
+		helper.Assert(t.Dump() == ans)
+	}
+
+	{
+		t := helper.NewTree(bfs)
+		t.Print(6)
+		flatten2(t)
+		t.Print(6)
+		helper.Log(t.Dump() , ans)
+	}
+
+	{
+		t := helper.NewTree(bfs)
+		t.Print(6)
+		flatten3(t)
+		t.Print(6)
+		helper.Log(t.Dump() , ans)
+	}
 }
 
 func main() {
