@@ -68,12 +68,13 @@ func findOrder2(numCourses int, prerequisites [][]int) bool { // 广度优先
 	return count == numCourses
 }
 
+func testOne(num int, matrix [][]int, ans bool) {
+	helper.Assert(findOrder(num, matrix) == ans)
+	helper.Assert(findOrder2(num, matrix) == ans)
+}
+
 func main() {
-	var pq [][]int
-	pq = [][]int{{1, 0}}
-	helper.Log(findOrder(2, pq), findOrder2(2, pq))
-	pq = [][]int{{1, 0}, {2, 0}, {3, 1}, {3, 2}}
-	helper.Log(findOrder(4, pq), findOrder2(4, pq))
-	pq = [][]int{{1, 0}, {0, 1}}
-	helper.Log(findOrder(2, pq), findOrder2(2, pq))
+	testOne(2, [][]int{{1, 0}}, true)
+	testOne(4, [][]int{{1, 0}, {2, 0}, {3, 1}, {3, 2}}, true)
+	testOne(2, [][]int{{1, 0}, {0, 1}}, false)
 }
