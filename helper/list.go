@@ -1,5 +1,10 @@
 package helper
 
+import (
+	"encoding/json"
+	"log"
+)
+
 type ListNode struct {
 	Val  int
 	Next *ListNode
@@ -7,7 +12,7 @@ type ListNode struct {
 
 func (head *ListNode) ToArray() []int {
 	curr := head
-	var arr []int
+	arr := make([]int, 0)
 	for curr != nil {
 		arr = append(arr, curr.Val)
 		curr = curr.Next
@@ -15,7 +20,30 @@ func (head *ListNode) ToArray() []int {
 	return arr
 }
 
+func (head *ListNode) Dump() string {
+	arr := head.ToArray()
+	data, err := json.Marshal(arr)
+	if err != nil {
+		log.Panic("dump failed:", err)
+	}
+	return string(data)
+}
+
 func NewList(arr []int) *ListNode {
+	var pt ListNode
+	p := &pt
+	for i := range arr {
+		p.Next = &ListNode{Val: arr[i]}
+		p = p.Next
+	}
+	return pt.Next
+}
+
+func ParseList(in string) *ListNode {
+	var arr []int
+	if err := json.Unmarshal([]byte(in), &arr); err != nil {
+		log.Panic("parse failed:", err)
+	}
 	var pt ListNode
 	p := &pt
 	for i := range arr {

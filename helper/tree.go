@@ -3,6 +3,7 @@ package helper
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"strings"
 )
 
@@ -48,7 +49,7 @@ func (head *TreeNode) Dump() string {
 	arr := head.ToArray()
 	data, err := json.Marshal(arr)
 	if err != nil {
-		fmt.Println("err:", err)
+		log.Panic("dump failed:", err)
 	}
 	return string(data)
 }
@@ -57,8 +58,7 @@ func (head *TreeNode) Dump() string {
 func NewTree(bfs string) *TreeNode {
 	var arr []*int
 	if err := json.Unmarshal([]byte(bfs), &arr); err != nil {
-		fmt.Println(err)
-		return nil
+		log.Panic("parse failed:", err)
 	}
 
 	var root *TreeNode
