@@ -55,7 +55,7 @@ func (head *TreeNode) Dump() string {
 }
 
 // bfs: [10,5,-3,3,2,null,11,3,-2,null,1]
-func NewTree(bfs string) *TreeNode {
+func ParseTree(bfs string) *TreeNode {
 	var arr []*int
 	if err := json.Unmarshal([]byte(bfs), &arr); err != nil {
 		log.Panic("parse failed:", err)
@@ -89,6 +89,8 @@ func NewTree(bfs string) *TreeNode {
 	}
 	return root
 }
+
+var NewTree = ParseTree
 
 func PrintTree(root *TreeNode, width int) {
 	fmt.Println("-------------------Tree---------------------")

@@ -44,13 +44,7 @@ func ParseList(in string) *ListNode {
 	if err := json.Unmarshal([]byte(in), &arr); err != nil {
 		log.Panic("parse failed:", err)
 	}
-	var pt ListNode
-	p := &pt
-	for i := range arr {
-		p.Next = &ListNode{Val: arr[i]}
-		p = p.Next
-	}
-	return pt.Next
+	return NewList(arr)
 }
 
 func NewCycleList(arr []int, pos int) *ListNode {
@@ -69,4 +63,12 @@ func NewCycleList(arr []int, pos int) *ListNode {
 		p.Next = pPos
 	}
 	return pt.Next
+}
+
+func ParseCycleList(in string, pos int) *ListNode {
+	var arr []int
+	if err := json.Unmarshal([]byte(in), &arr); err != nil {
+		log.Panic("parse failed:", err)
+	}
+	return NewCycleList(arr, pos)
 }
