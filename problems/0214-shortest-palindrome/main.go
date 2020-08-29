@@ -12,7 +12,7 @@ func shortestPalindrome(s string) string {
 			arr[i] = s[N-1-i]
 		}
 		rs := string(arr)
-		index := Search(rs, s)
+		index := search(rs, s)
 		if index != N {
 			s = rs[0:N-index] + s
 		}
@@ -20,7 +20,7 @@ func shortestPalindrome(s string) string {
 	return s
 }
 
-func GetNextArray(str string) []int {
+func getNext(str string) []int {
 	length := len(str)
 	if length == 0 {
 		return nil
@@ -43,8 +43,8 @@ func GetNextArray(str string) []int {
 	return nextArr
 }
 
-func Search(src string, pattern string) int {
-	nextArr := GetNextArray(pattern)
+func search(src string, pattern string) int {
+	nextArr := getNext(pattern)
 	var i, j int
 	for i < len(src) && j < len(pattern) {
 		if src[i] == pattern[j] {
