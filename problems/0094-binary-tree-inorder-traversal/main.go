@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"leetcode/helper"
 )
 
@@ -25,8 +24,37 @@ func inorderTraversal(root *TreeNode) []int {
 	return ans
 }
 
+func inorderTraversal2(root *TreeNode) []int {
+	var ans []int
+
+	curr := root
+	for curr != nil {
+		if curr.Left != nil {
+			prev := curr.Left
+			for prev.Right != nil && prev.Right != curr {
+				prev = prev.Right
+			}
+			if prev.Right == nil {
+				prev.Right = curr
+				curr = curr.Left
+				continue
+			}
+			prev.Right = nil
+		}
+		ans = append(ans, curr.Val)
+		curr = curr.Right
+	}
+
+	return ans
+}
+
+func testOne(in string, ans []int) {
+	t := helper.NewTree(in)
+	t.Print(8) // [1,3,2]
+	helper.Log(inorderTraversal(t), ans)
+	helper.Log(inorderTraversal2(t), ans)
+}
+
 func main() {
-	t := helper.NewTree("[1,null,2,3]")
-	t.Print(8)
-	fmt.Println(inorderTraversal(t))  // [1,3,2]
+	testOne("[1,null,2,3]", []int{1, 3, 2})
 }
