@@ -122,3 +122,26 @@ func CloneTree(head *TreeNode) *TreeNode {
 	node.Right = CloneTree(head.Right)
 	return node
 }
+
+func InOrder(node *TreeNode) []int {
+	arr := make([]int, 0)
+	var inOrder func(*TreeNode)
+	inOrder = func(node *TreeNode) {
+		if node != nil {
+			inOrder(node.Left)
+			arr = append(arr, node.Val)
+			inOrder(node.Right)
+		}
+	}
+
+	inOrder(node)
+	return arr
+}
+
+func Dump(v interface{}) string {
+	data, err := json.Marshal(v)
+	if err != nil {
+		log.Panic("dump failed:", err)
+	}
+	return string(data)
+}
