@@ -22,11 +22,7 @@ func (head *ListNode) ToArray() []int {
 
 func (head *ListNode) Dump() string {
 	arr := head.ToArray()
-	data, err := json.Marshal(arr)
-	if err != nil {
-		log.Panic("dump failed:", err)
-	}
-	return string(data)
+	return Dump(arr)
 }
 
 func NewList(arr []int) *ListNode {
