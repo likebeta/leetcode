@@ -5,6 +5,13 @@ import (
 	"log"
 )
 
+type Node struct {
+	Val   int
+	Left  *Node
+	Right *Node
+	Next  *Node
+}
+
 func Dump(v interface{}) string {
 	data, err := json.Marshal(v)
 	if err != nil {
