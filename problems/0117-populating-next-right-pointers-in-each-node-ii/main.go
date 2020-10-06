@@ -2,18 +2,13 @@ package main
 
 import (
 	"encoding/json"
+	"leetcode/helper"
 	"log"
 )
 
+type Node = helper.Node
+
 // 填充每个节点的下一个右侧节点指针 II
-
-type Node struct {
-	Val   int
-	Left  *Node
-	Right *Node
-	Next  *Node
-}
-
 func connect(root *Node) *Node {
 	for start := root; start != nil; {
 		var first, prev *Node
@@ -73,7 +68,6 @@ func parse(bfs string) *Node {
 	}
 	return root
 }
-
 
 func main() {
 	node := parse("[1,2,3,4,5,null,7]")
