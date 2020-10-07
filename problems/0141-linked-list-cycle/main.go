@@ -22,12 +22,12 @@ func hasCycle(head *ListNode) bool {
 
 func main() {
 	var head *ListNode
-	head = helper.NewCycleList([]int{3, 2, 0, -4}, 1)
+	head = helper.ParseCycleList("[3, 2, 0, -4]", 1)
 	helper.Assert(hasCycle(head) == true)
 
-	head = helper.NewCycleList([]int{1, 2}, 1)
+	head = helper.ParseCycleList("[1,2]", 1)
 	helper.Assert(hasCycle(head) == true)
 
-	head = helper.NewCycleList([]int{1}, -1)
+	head = helper.ParseCycleList("[1]", -1)
 	helper.Assert(hasCycle(head) == false)
 }
