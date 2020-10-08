@@ -20,14 +20,13 @@ func hasCycle(head *ListNode) bool {
 	return fast == slow
 }
 
+func testOne(in string, pos int, ans bool) {
+	head := helper.ParseCycleList(in, pos)
+	helper.Assert(hasCycle(head) == ans)
+}
+
 func main() {
-	var head *ListNode
-	head = helper.ParseCycleList("[3, 2, 0, -4]", 1)
-	helper.Assert(hasCycle(head) == true)
-
-	head = helper.ParseCycleList("[1,2]", 1)
-	helper.Assert(hasCycle(head) == true)
-
-	head = helper.ParseCycleList("[1]", -1)
-	helper.Assert(hasCycle(head) == false)
+	testOne("[3, 2, 0, -4]", 1, true)
+	testOne("[1,2]", 1, true)
+	testOne("[1]", -1, false)
 }
