@@ -28,13 +28,12 @@ func max(a, b int) int {
 	return b
 }
 
-func main() {
-	var t *TreeNode
-	t = helper.NewTree("[3,2,3,null,3,null,1]")
-	helper.PrintTree(t, 6)
-	helper.Assert(rob(t) == 7)
+func testOne(in string, ans int) {
+	t := helper.ParseTree(in)
+	helper.Assert(rob(t) == ans)
+}
 
-	t = helper.NewTree("[3,4,5,1,3,null,1]")
-	helper.PrintTree(t, 6)
-	helper.Assert(rob(t) == 9)
+func main() {
+	testOne("[3,2,3,null,3,null,1]", 7)
+	testOne("[3,4,5,1,3,null,1]", 9)
 }
