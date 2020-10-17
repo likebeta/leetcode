@@ -19,3 +19,9 @@ func Dump(v interface{}) string {
 	}
 	return string(data)
 }
+
+func Load(data []byte, v interface{}) {
+	if err := json.Unmarshal(data, v); err != nil {
+		log.Panic("load failed:", err)
+	}
+}
