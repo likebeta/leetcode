@@ -30,14 +30,15 @@ func isBipartite(graph [][]int) bool {
 	return true
 }
 
-func main() {
+func testOne(in string, ans bool) {
 	var matrix [][]int
-	matrix = [][]int{{1, 3}, {0, 2}, {1, 3}, {0, 2}}
-	helper.Assert(isBipartite(matrix) == true)
-	matrix = [][]int{{1, 2, 3}, {0, 2}, {0, 1, 3}, {0, 2}}
-	helper.Assert(isBipartite(matrix) == false)
-	matrix = [][]int{{1}, {0, 3}, {3}, {1, 2}}
-	helper.Assert(isBipartite(matrix) == true)
-	matrix = [][]int{{3}, {2, 4}, {1}, {0, 4}, {1, 3}}
-	helper.Assert(isBipartite(matrix) == true)
+	helper.Load([]byte(in), &matrix)
+	helper.Assert(isBipartite(matrix) == ans)
+}
+
+func main() {
+	testOne("[[1,3], [0,2], [1,3], [0,2]]", true)
+	testOne("[[1,2,3], [0,2], [0,1,3], [0,2]]", false)
+	testOne("[[1], [0,3], [3], [1,2]]", true)
+	testOne("[[3], [2,4], [1], [0,4], [1,3]]", true)
 }
