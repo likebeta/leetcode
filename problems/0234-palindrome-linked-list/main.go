@@ -43,21 +43,41 @@ func reverse(head *ListNode) *ListNode {
 	return pre
 }
 
-func testOne(arr []int) {
-	list := helper.NewList(arr)
-	result := isPalindrome(list)
-	helper.Log(arr, result, list.ToArray())
+func isPalindrome2(head *ListNode) bool {
+	var f func(*ListNode) bool
+	f = func(node *ListNode) bool {
+		if node != nil {
+			if !f(node.Next) || node.Val != head.Val {
+				return false
+			}
+			head = head.Next
+		}
+		return true
+	}
+	return f(head)
+}
+
+func testOne(arr []int, ans bool) {
+	{
+		list := helper.NewList(arr)
+		helper.Assert(isPalindrome(list) == ans)
+		helper.Assert(helper.DumpArray(arr) == list.Dump())
+	}
+	{
+		list := helper.NewList(arr)
+		helper.Assert(isPalindrome2(list) == ans)
+	}
 }
 
 func main() {
-	testOne(nil)
-	testOne([]int{})
-	testOne([]int{1})
-	testOne([]int{1, 2})
-	testOne([]int{1, 1})
-	testOne([]int{1, 1, 2})
-	testOne([]int{1, 2, 1})
-	testOne([]int{1, 2, 2, 1})
-	testOne([]int{1, 2, 2, 3})
-	testOne([]int{1, 2, 2, 2, 1})
+	testOne(nil, true)
+	testOne([]int{}, true)
+	testOne([]int{1}, true)
+	testOne([]int{1, 2}, false)
+	testOne([]int{1, 1}, true)
+	testOne([]int{1, 1, 2}, false)
+	testOne([]int{1, 2, 1}, true)
+	testOne([]int{1, 2, 2, 1}, true)
+	testOne([]int{1, 2, 2, 3}, false)
+	testOne([]int{1, 2, 2, 2, 1}, true)
 }
