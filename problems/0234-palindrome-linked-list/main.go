@@ -43,12 +43,13 @@ func reverse(head *ListNode) *ListNode {
 	return pre
 }
 
+func testOne(arr []int) {
+	list := helper.NewList(arr)
+	result := isPalindrome(list)
+	helper.Log(arr, result, list.ToArray())
+}
+
 func main() {
-	testOne := func(arr []int) {
-		list := helper.NewList(arr)
-		result := isPalindrome(list)
-		helper.Log(arr, result, list.ToArray())
-	}
 	testOne(nil)
 	testOne([]int{})
 	testOne([]int{1})
