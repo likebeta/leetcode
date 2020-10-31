@@ -22,8 +22,14 @@ func wordBreak(s string, wordDict []string) bool {
 	return dp[length]
 }
 
+func testOne(s, in string, ans bool) {
+	var wordDict []string
+	helper.Load([]byte(in), &wordDict)
+	helper.Assert(wordBreak(s, wordDict) == ans)
+}
+
 func main() {
-	helper.Assert(wordBreak("leetcode", []string{"leet", "code"}) == true)
-	helper.Assert(wordBreak("applepenapple", []string{"apple", "pen"}) == true)
-	helper.Assert(wordBreak("catsandog", []string{"cats", "dog", "sand", "and", "cat"}) == false)
+	testOne("leetcode", `["leet", "code"]`, true)
+	testOne("applepenapple", `["apple", "pen"]`, true)
+	testOne("catsandog", `["cats", "dog", "sand", "and", "cat"]`, false)
 }
