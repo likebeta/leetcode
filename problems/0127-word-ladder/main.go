@@ -55,8 +55,14 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 	return 0
 }
 
+func testOne(beginWord string, endWord string, words string, ans int) {
+	var wordList []string
+	helper.Load([]byte(words), &wordList)
+	helper.Assert(ladderLength(beginWord, endWord, wordList) == ans)
+}
+
 func main() {
-	helper.Log(ladderLength("a", "c", []string{"a", "b", "c"}), 2)
-	helper.Log(ladderLength("hit", "cog", []string{"hot", "dot", "dog", "lot", "log", "cog"}), 5)
-	helper.Log(ladderLength("hit", "cog", []string{"hot", "dot", "dog", "lot", "log"}), 0)
+	testOne("a", "c", `["a", "b", "c"]`, 2)
+	testOne("hit", "cog", `["hot", "dot", "dog", "lot", "log", "cog"]`, 5)
+	testOne("hit", "cog", `["hot", "dot", "dog", "lot", "log"]`, 0)
 }
