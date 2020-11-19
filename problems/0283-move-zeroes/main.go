@@ -20,9 +20,12 @@ func moveZeroes(nums []int) {
 	}
 }
 
-func main() {
-	arr := []int{0, 1, 0, 3, 12}
-	helper.Log(arr)
+func testOne(in string) {
+	arr := helper.ParseArray(in)
 	moveZeroes(arr)
-	helper.Log(arr)
+	helper.Log(in, helper.DumpArray(arr))
+}
+
+func main() {
+	testOne("[0, 1, 0, 3, 12]")
 }
