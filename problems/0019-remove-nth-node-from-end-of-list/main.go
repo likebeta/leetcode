@@ -6,22 +6,24 @@ import (
 
 type ListNode = helper.ListNode
 
+func findNthFromEnd(head *ListNode, n int) *ListNode {
+	pFast := head
+	for ; n > 0; n-- {
+		pFast = pFast.Next
+	}
+	pSlow := head
+	for pFast != nil {
+		pSlow, pFast = pSlow.Next, pFast.Next
+	}
+	return pSlow
+}
+
 // 删除链表的倒数第N个节点
 func removeNthFromEnd(head *ListNode, n int) *ListNode {
-	var curr *ListNode
-	for curr = head; n > 0; n-- {
-		curr = curr.Next
-	}
-
-	if curr == nil {
-		return head.Next
-	}
-	pre := head
-	for curr.Next != nil {
-		pre, curr = pre.Next, curr.Next
-	}
-	pre.Next = pre.Next.Next
-	return head
+	dummy := &ListNode{Next: head}
+	p := findNthFromEnd(dummy, n+1)
+	p.Next = p.Next.Next
+	return dummy.Next
 }
 
 func testOne(arr []int, n int) {
