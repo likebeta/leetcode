@@ -8,8 +8,8 @@ type ListNode = helper.ListNode
 
 // 合并两个有序链表
 func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
-	var l ListNode
-	p := &l
+	var dummy ListNode
+	p := &dummy
 	for l1 != nil && l2 != nil {
 		if l1.Val < l2.Val {
 			p.Next = l1
@@ -26,7 +26,7 @@ func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 		p.Next = l2
 	}
 
-	return l.Next
+	return dummy.Next
 }
 
 func main() {
