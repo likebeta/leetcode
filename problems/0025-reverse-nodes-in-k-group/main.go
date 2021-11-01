@@ -8,62 +8,51 @@ type ListNode = helper.ListNode
 
 // K 个一组翻转链表
 func reverseKGroup(head *ListNode, k int) *ListNode {
-	if k < 2 {
+	if head == nil || k < 2 {
 		return head
 	}
 	var pre, newHead *ListNode
 	newHead = head
 	for head != nil {
-		count := 1
-		start := head
-		for count != k && head.Next != nil {
-			head = head.Next
-			count++
+		tail := head
+		for count := 1; count < k; count++ {
+			if tail.Next == nil {
+				return newHead
+			}
+			tail = tail.Next
 		}
-		if count != k {
-			break
-		}
-		reverse(start, head)
+		reverse(head, tail.Next)
 		if pre == nil {
-			newHead = head
+			newHead = tail
 		} else {
-			pre.Next = head
+			pre.Next = tail
 		}
-		pre, head = start, start.Next
+		pre, head = head, head.Next
 	}
 	return newHead
 }
 
 func reverse(a, b *ListNode) *ListNode {
-	var pre *ListNode
-	if b != nil {
-		pre = b.Next
-	}
+	pre := b
 	for a != b {
-		pre, a.Next = a.Next, pre
-		pre, a = a, pre
-	}
-	if b != nil {
-		b.Next, pre = pre, b
+		a, a.Next, pre = a.Next, pre, a
 	}
 	return pre
 }
 
+func testOne(in string, k int) {
+	head := helper.ParseList(in)
+	head = reverseKGroup(head, k)
+	helper.Log(in, "=>", head.Dump())
+	helper.Print()
+}
+
 func main() {
-	var list *helper.ListNode
-	list = helper.NewList([]int{1, 2, 3, 4, 5})
-	list = reverseKGroup(list, 2)
-	helper.Log(list.ToArray())
-
-	list = helper.NewList([]int{1, 2, 3, 4, 5})
-	list = reverseKGroup(list, 3)
-	helper.Log(list.ToArray())
-
-	list = helper.NewList([]int{1, 2, 3, 4, 5})
-	list = reverseKGroup(list, 5)
-	helper.Log(list.ToArray())
-
-	list = helper.NewList([]int{1, 2, 3, 4, 5})
-	list = reverseKGroup(list, 6)
-	helper.Log(list.ToArray())
+	testOne("[]", 1)
+	testOne("[1,2,3,4,5]", 1)
+	testOne("[1,2,3,4,5]", 2)
+	testOne("[1,2,3,4,5]", 3)
+	testOne("[1,2,3,4,5]", 4)
+	testOne("[1,2,3,4,5]", 5)
+	testOne("[1,2,3,4,5]", 6)
 }
