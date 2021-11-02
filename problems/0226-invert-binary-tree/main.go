@@ -8,12 +8,11 @@ type TreeNode = helper.TreeNode
 
 // 翻转二叉树
 func invertTree(root *TreeNode) *TreeNode {
-	if root == nil {
-		return root
+	if root != nil {
+		root.Left, root.Right = root.Right, root.Left
+		invertTree(root.Left)
+		invertTree(root.Right)
 	}
-	left := invertTree(root.Right)
-	root.Right = invertTree(root.Left)
-	root.Left = left
 	return root
 }
 
