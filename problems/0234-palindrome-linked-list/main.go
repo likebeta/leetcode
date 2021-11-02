@@ -20,18 +20,16 @@ func isPalindrome(head *ListNode) bool {
 		fast = fast.Next.Next
 	}
 
-	ans := true
 	fast = reverse(slow.Next)
 	left, right := head, fast
 	for left != nil && right != nil {
 		if left.Val != right.Val {
-			ans = false
-			break
+			return false
 		}
 		left, right = left.Next, right.Next
 	}
 	slow.Next = reverse(fast)
-	return ans
+	return true
 }
 
 func reverse(head *ListNode) *ListNode {
@@ -43,6 +41,7 @@ func reverse(head *ListNode) *ListNode {
 	return pre
 }
 
+// 递归方法
 func isPalindrome2(head *ListNode) bool {
 	var f func(*ListNode) bool
 	f = func(node *ListNode) bool {
@@ -57,27 +56,25 @@ func isPalindrome2(head *ListNode) bool {
 	return f(head)
 }
 
-func testOne(arr []int, ans bool) {
+func testOne(in string, ans bool) {
 	{
-		list := helper.NewList(arr)
+		list := helper.ParseList(in)
 		helper.Assert(isPalindrome(list) == ans)
-		helper.Assert(helper.DumpArray(arr) == list.Dump())
 	}
 	{
-		list := helper.NewList(arr)
+		list := helper.ParseList(in)
 		helper.Assert(isPalindrome2(list) == ans)
 	}
 }
 
 func main() {
-	testOne(nil, true)
-	testOne([]int{}, true)
-	testOne([]int{1}, true)
-	testOne([]int{1, 2}, false)
-	testOne([]int{1, 1}, true)
-	testOne([]int{1, 1, 2}, false)
-	testOne([]int{1, 2, 1}, true)
-	testOne([]int{1, 2, 2, 1}, true)
-	testOne([]int{1, 2, 2, 3}, false)
-	testOne([]int{1, 2, 2, 2, 1}, true)
+	testOne("[]", true)
+	testOne("[1]", true)
+	testOne("[1,2]", false)
+	testOne("[1,1]", true)
+	testOne("[1,1,2]", false)
+	testOne("[1,2,1]", true)
+	testOne("[1,2,2,1]", true)
+	testOne("[1,2,2,3]", false)
+	testOne("[1,2,2,2,1]", true)
 }
