@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 )
 
@@ -54,8 +55,16 @@ func (head *TreeNode) Dump() string {
 	return string(data)
 }
 
-// bfs: [10,5,-3,3,2,null,11,3,-2,null,1]
+func (head *TreeNode) DumpNode() string {
+	if head == nil {
+		return "null"
+	} else {
+		return strconv.Itoa(head.Val)
+	}
+}
+
 func ParseTree(bfs string) *TreeNode {
+	// bfs: [10,5,-3,3,2,null,11,3,-2,null,1]
 	var arr []*int
 	if err := json.Unmarshal([]byte(bfs), &arr); err != nil {
 		log.Panic("parse failed:", err)
