@@ -11,29 +11,23 @@ func reverseKGroup(head *ListNode, k int) *ListNode {
 	if head == nil || k < 2 {
 		return head
 	}
-	var pre, newHead *ListNode
-	newHead = head
-	for head != nil {
-		tail := head
-		for count := 1; count < k; count++ {
-			if tail.Next == nil {
-				return newHead
-			}
-			tail = tail.Next
+
+	tail := head
+	for i := 0; i < k; i++ {
+		if tail == nil {
+			return head
 		}
-		reverse(head, tail.Next)
-		if pre == nil {
-			newHead = tail
-		} else {
-			pre.Next = tail
-		}
-		pre, head = head, head.Next
+		tail = tail.Next
 	}
+
+	newHead := reverse(head, tail)
+	head.Next = reverseKGroup(tail, k)
 	return newHead
 }
 
+// [a, b)
 func reverse(a, b *ListNode) *ListNode {
-	pre := b
+	var pre *ListNode
 	for a != b {
 		a, a.Next, pre = a.Next, pre, a
 	}
@@ -43,7 +37,7 @@ func reverse(a, b *ListNode) *ListNode {
 func testOne(in string, k int) {
 	head := helper.ParseList(in)
 	head = reverseKGroup(head, k)
-	helper.Log(in, "=>", head.Dump())
+	helper.Log(in, k, "=>", head.Dump())
 	helper.Print()
 }
 
