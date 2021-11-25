@@ -22,10 +22,27 @@ func convertBST(root *TreeNode) *TreeNode {
 	return root
 }
 
+func convertBST2(root *TreeNode) *TreeNode {
+	var dfs func(*TreeNode, int) int
+	dfs = func(node *TreeNode, extra int) int {
+		if node == nil {
+			return extra
+		}
+		node.Val += dfs(node.Right, extra)
+		return dfs(node.Left, node.Val)
+	}
+	dfs(root, 0)
+	return root
+}
+
 func testOne(in string, ans string) {
 	t := helper.ParseTree(in)
 	t = convertBST(t)
 	helper.Log(in, "=>", t.Dump() == ans)
+
+	t2 := helper.ParseTree(in)
+	t2 = convertBST2(t2)
+	helper.Log(in, "->", t2.Dump() == ans)
 }
 
 func main() {
