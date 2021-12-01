@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"leetcode/helper"
 )
 
@@ -32,7 +31,6 @@ func minWindow(s string, t string) string {
 						needMap[c]++
 						if v == 0 {
 							needCnt++
-							fmt.Println(right, left, j, i)
 							if right == 0 || right-left > j-i {
 								left, right = i-1, j
 							}
@@ -47,9 +45,13 @@ func minWindow(s string, t string) string {
 	return s[left:right]
 }
 
+func testOne(t, s string, ans string) {
+	helper.Assert(minWindow(t, s) == ans)
+}
+
 func main() {
-	helper.Assert(minWindow("ADOBECODEBANC", "ABC") == "BANC")
-	helper.Assert(minWindow("ADOBECODEBANC", "ABCC") == "CODEBANC")
-	helper.Assert(minWindow("cabwefgewcwaefgcf", "cae") == "cwae")
-	helper.Assert(minWindow("ADOBECODEBANC", "") == "")
+	testOne("ADOBECODEBANC", "ABC", "BANC")
+	testOne("ADOBECODEBANC", "ABCC", "CODEBANC")
+	testOne("cabwefgewcwaefgcf", "cae", "cwae")
+	testOne("ADOBECODEBANC", "", "")
 }
