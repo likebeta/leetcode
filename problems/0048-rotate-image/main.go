@@ -1,12 +1,13 @@
 package main
 
 import (
-	"github.com/likebeta/leetcode/helper"
+	"leetcode/helper"
 )
 
 // 旋转图像
 
 /*
+分块，遍历左上角区域
 temp                    =matrix[row][col]
 matrix[row][col]        =matrix[n−col−1][row]
 matrix[n−col−1][row]    =matrix[n−row−1][n−col−1]
@@ -26,12 +27,40 @@ func rotate(matrix [][]int) {
 	}
 }
 
+/*
+分层，遍历上部倒梯形
+*/
+func rotate2(matrix [][]int) {
+	n := len(matrix)
+	start, level := 0, n-1
+	for start < level {
+		for j := start; j < level; j++ {
+			temp := matrix[start][j]
+			matrix[start][j] = matrix[n-1-j][start]
+			matrix[n-1-j][start] = matrix[n-1-start][n-1-j]
+			matrix[n-1-start][n-1-j] = matrix[j][n-1-start]
+			matrix[j][n-1-start] = temp
+		}
+		start++
+		level--
+	}
+}
+
 func testOne(in string, ans string) {
-	var matrix [][]int
-	helper.Load([]byte(in), &matrix)
-	rotate(matrix)
-	out := helper.Dump(&matrix)
-	helper.Assert(out == ans)
+	{
+		var matrix [][]int
+		helper.Load([]byte(in), &matrix)
+		rotate(matrix)
+		out := helper.Dump(&matrix)
+		helper.Assert(out == ans)
+	}
+	{
+		var matrix [][]int
+		helper.Load([]byte(in), &matrix)
+		rotate2(matrix)
+		out := helper.Dump(&matrix)
+		helper.Assert(out == ans)
+	}
 }
 func main() {
 	testOne("[[1,2,3],[4,5,6],[7,8,9]]", "[[7,4,1],[8,5,2],[9,6,3]]")
