@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/likebeta/leetcode/helper"
+	"leetcode/helper"
 	"math/rand"
 )
 
