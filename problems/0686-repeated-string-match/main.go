@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/likebeta/leetcode/helper"
+	"leetcode/helper"
 )
 
 // 重复叠加字符串匹配
