@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/likebeta/leetcode/helper"
+	"leetcode/helper"
 )
 
 // 统计特殊四元组
