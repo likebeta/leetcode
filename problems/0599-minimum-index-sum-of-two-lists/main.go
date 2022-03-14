@@ -26,10 +26,9 @@ func findRestaurant(list1 []string, list2 []string) []string {
 }
 
 func testOne(in1, in2 string, result string) {
-	var list1, list2, resultArr []string
-	helper.Load([]byte(in1), &list1)
-	helper.Load([]byte(in2), &list2)
-	helper.Load([]byte(result), &resultArr)
+	list1 := helper.ParseSlice[string](in1)
+	list2 := helper.ParseSlice[string](in2)
+	resultArr := helper.ParseSlice[string](result)
 	ans := findRestaurant(list1, list2)
 	helper.Assert(helper.Dump(ans) == helper.Dump(resultArr))
 }

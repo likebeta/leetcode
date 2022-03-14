@@ -13,7 +13,15 @@ func ParseArray(in string) []int {
 	return arr
 }
 
-func DumpArray(arr []int) string {
+func ParseSlice[T any](in string) []T {
+	var arr []T
+	if err := json.Unmarshal([]byte(in), &arr); err != nil {
+		log.Panic("parse failed:", err)
+	}
+	return arr
+}
+
+func DumpArray[T any](arr []T) string {
 	if len(arr) == 0 {
 		return "[]"
 	}
