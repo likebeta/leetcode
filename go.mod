@@ -1,11 +1,3 @@
-module github.com/likebeta/leetcode
+module leetcode
 
-require (
-	leetcode v0.0.0
-)
-
-replace (
-	leetcode => ./
-)
-
-go 1.18
+go 1.21

@@ -15,52 +15,40 @@ func searchRange(nums []int, target int) []int {
 }
 
 // 二分搜索最左出现
-func leftBound(arr []int, target int) int {
-	length := len(arr)
-	if length == 0 {
-		return -1
-	}
-	left := 0
-	right := length - 1
+func leftBound(nums []int, target int) int {
+	left, right := 0, len(nums)-1
 	for left <= right {
 		mid := left + (right-left)/2
-		if arr[mid] == target {
+		if nums[mid] == target {
 			right = mid - 1
-		} else if arr[mid] < target {
+		} else if nums[mid] < target {
 			left = mid + 1
-		} else { // arr[mid] > target
+		} else { // nums[mid] > target
 			right = mid - 1
 		}
 	}
 
-	// 搜索区间[left, right] =>[right, left] 即 [left-1, left]
-	if left >= length || arr[left] != target {
+	if left == len(nums) || nums[left] != target {
 		return -1
 	}
 	return left
 }
 
 // 二分搜索最右出现
-func rightBound(arr []int, target int) int {
-	length := len(arr)
-	if length == 0 {
-		return -1
-	}
-	left := 0
-	right := length - 1
+func rightBound(nums []int, target int) int {
+	left, right := 0, len(nums)-1
 	for left <= right {
 		mid := left + (right-left)/2
-		if arr[mid] == target {
+		if nums[mid] == target {
 			left = mid + 1
-		} else if arr[mid] < target {
+		} else if nums[mid] < target {
 			left = mid + 1
-		} else { // arr[mid] > target
+		} else { // nums[mid] > target
 			right = mid - 1
 		}
 	}
 
-	// 搜索区间[left, right] =>[right, left] 即 [right, right+1]
-	if right <= -1 || arr[right] != target {
+	if right < 0 || nums[right] != target {
 		return -1
 	}
 	return right

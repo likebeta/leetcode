@@ -4,10 +4,9 @@ import (
 	"leetcode/helper"
 )
 
-// 二分查找
+// 二分查找 0034
 func search(nums []int, target int) int {
-	left := 0
-	right := len(nums) - 1
+	left, right := 0, len(nums)-1
 	for left <= right {
 		mid := left + (right-left)/2
 		if nums[mid] == target {

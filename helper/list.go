@@ -68,3 +68,14 @@ func ParseCycleList(in string, pos int) *ListNode {
 	}
 	return NewCycleList(arr, pos)
 }
+
+func ConcatList(l1, l2 *ListNode) *ListNode {
+	dummy := ListNode{Next: l1}
+
+	head := &dummy
+	for head.Next != nil {
+		head = head.Next
+	}
+	head.Next = l2
+	return dummy.Next
+}
