@@ -18,15 +18,29 @@ func reverseList(head *ListNode) *ListNode {
 	return last
 }
 
-func testOne(in string) {
+// 迭代
+func reverseList2(head *ListNode) *ListNode {
+	var pre *ListNode
+	for head != nil {
+		pre, head, head.Next = head, head.Next, pre
+	}
+	return pre
+}
+
+func testOne(in string, out string, f func(*ListNode) *ListNode) {
 	head := helper.ParseList(in)
-	head = reverseList(head)
-	helper.Log(in, "=>", head.Dump())
+	head = f(head)
+	helper.Assert(head.Dump() == out)
 }
 
 func main() {
-	testOne("[]")
-	testOne("[1]")
-	testOne("[1,2]")
-	testOne("[1,2,3]")
+	testOne("[]", "[]", reverseList)
+	testOne("[1]", "[1]", reverseList)
+	testOne("[1,2]", "[2,1]", reverseList)
+	testOne("[1,2,3]", "[3,2,1]", reverseList)
+
+	testOne("[]", "[]", reverseList2)
+	testOne("[1]", "[1]", reverseList2)
+	testOne("[1,2]", "[2,1]", reverseList2)
+	testOne("[1,2,3]", "[3,2,1]", reverseList2)
 }
