@@ -24,7 +24,7 @@ func corpFlightBookings(bookings [][]int, n int) []int {
 func testOne(length int, updates string, ans string) {
 	matrix := helper.ParseMatrix[int](updates)
 	ret := corpFlightBookings(matrix, length)
-	helper.Assert(helper.DumpArray[int](ret) == ans)
+	helper.Assert(helper.DumpArray(ret) == ans)
 }
 
 func main() {

@@ -23,3 +23,6 @@ func DumpMatrix[T any](matrix [][]T) string {
 	}
 	return string(data)
 }
+
+var ParseIntMatrix = ParseMatrix[int]
+var DumpIntMatrix = DumpMatrix[int]

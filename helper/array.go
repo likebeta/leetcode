@@ -5,15 +5,7 @@ import (
 	"log"
 )
 
-func ParseArray(in string) []int {
-	var arr []int
-	if err := json.Unmarshal([]byte(in), &arr); err != nil {
-		log.Panic("parse failed:", err)
-	}
-	return arr
-}
-
-func ParseSlice[T any](in string) []T {
+func parseArray[T any](in string) []T {
 	var arr []T
 	if err := json.Unmarshal([]byte(in), &arr); err != nil {
 		log.Panic("parse failed:", err)
@@ -21,7 +13,7 @@ func ParseSlice[T any](in string) []T {
 	return arr
 }
 
-func DumpArray[T any](arr []T) string {
+func dumpArray[T any](arr []T) string {
 	if len(arr) == 0 {
 		return "[]"
 	}
@@ -31,3 +23,12 @@ func DumpArray[T any](arr []T) string {
 	}
 	return string(data)
 }
+
+var ParseIntArray = parseArray[int]
+var DumpIntArray = dumpArray[int]
+
+var ParseStrArray = parseArray[string]
+var DumpStrArray = dumpArray[string]
+
+var ParseArray = ParseIntArray
+var DumpArray = DumpIntArray

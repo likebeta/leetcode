@@ -24,7 +24,7 @@ func getModifiedArray(length int, updates [][]int) []int {
 func testOne(length int, updates string, ans string) {
 	matrix := helper.ParseMatrix[int](updates)
 	ret := getModifiedArray(length, matrix)
-	helper.Assert(helper.DumpArray[int](ret) == ans)
+	helper.Assert(helper.DumpArray(ret) == ans)
 }
 
 func main() {

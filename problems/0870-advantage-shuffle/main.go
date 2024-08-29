@@ -58,9 +58,9 @@ func advantageCount2(nums1 []int, nums2 []int) []int {
 }
 
 func testOne(s1, s2 string, out string, f func([]int, []int) []int) {
-	arr1 := helper.ParseSlice[int](s1)
-	arr2 := helper.ParseSlice[int](s2)
-	outArr := helper.ParseArray(out)
+	arr1 := helper.ParseIntArray(s1)
+	arr2 := helper.ParseIntArray(s2)
+	outArr := helper.ParseIntArray(out)
 	ans := f(arr1, arr2)
 
 	// 答案不唯一

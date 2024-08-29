@@ -52,21 +52,17 @@ func nextGreaterElement2(nums1 []int, nums2 []int) []int {
 	return ans
 }
 
-func testOne(in1, in2 string, ans string) {
-	var nums1, nums2, result []int
-	// 正向
-	nums1 = helper.ParseArray(in1)
-	nums2 = helper.ParseArray(in2)
-	result = nextGreaterElement(nums1, nums2)
-	helper.Log(in1, in2, "=1=>", result, ans)
-	// 逆向
-	nums1 = helper.ParseArray(in1)
-	nums2 = helper.ParseArray(in2)
-	result = nextGreaterElement2(nums1, nums2)
-	helper.Log(in1, in2, "=2=>", result, ans)
+func testOne(in1, in2 string, out string, f func([]int, []int) []int) {
+	nums1 := helper.ParseArray(in1)
+	nums2 := helper.ParseArray(in2)
+	ans := f(nums1, nums2)
+	helper.Assert(helper.DumpArray(ans) == out)
 }
 
 func main() {
-	testOne("[4,1,2]", "[1,3,4,2]", "[-1,3,-1]")
-	testOne("[2,4]", "[1,2,3,4]", "[3,-1]")
+	testOne("[4,1,2]", "[1,3,4,2]", "[-1,3,-1]", nextGreaterElement)
+	testOne("[2,4]", "[1,2,3,4]", "[3,-1]", nextGreaterElement)
+
+	testOne("[4,1,2]", "[1,3,4,2]", "[-1,3,-1]", nextGreaterElement2)
+	testOne("[2,4]", "[1,2,3,4]", "[3,-1]", nextGreaterElement2)
 }
