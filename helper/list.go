@@ -5,14 +5,14 @@ import (
 	"log"
 )
 
-type ListNode struct {
-	Val  int
-	Next *ListNode
+type TListNode[T any] struct {
+	Val  T
+	Next *TListNode[T]
 }
 
-func (head *ListNode) ToArray() []int {
-	curr := head
-	arr := make([]int, 0)
+func (node *TListNode[T]) ToArray() []T {
+	curr := node
+	arr := make([]T, 0)
 	for curr != nil {
 		arr = append(arr, curr.Val)
 		curr = curr.Next
@@ -20,10 +20,12 @@ func (head *ListNode) ToArray() []int {
 	return arr
 }
 
-func (head *ListNode) Dump() string {
-	arr := head.ToArray()
+func (node *TListNode[T]) Dump() string {
+	arr := node.ToArray()
 	return Dump(arr)
 }
+
+type ListNode = TListNode[int]
 
 func NewList(arr []int) *ListNode {
 	var pt ListNode
