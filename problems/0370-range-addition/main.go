@@ -6,19 +6,19 @@ import (
 
 // 区间加法
 func getModifiedArray(length int, updates [][]int) []int {
-	d := make([]int, length)
+	ans := make([]int, length)
 	for _, one := range updates {
 		i, j, add := one[0], one[1], one[2]
-		d[i] += add
+		ans[i] += add
 		if j+1 < length {
-			d[j+1] -= add
+			ans[j+1] -= add
 		}
 	}
 
 	for i := 1; i < length; i++ {
-		d[i] += d[i-1]
+		ans[i] += ans[i-1]
 	}
-	return d
+	return ans
 }
 
 func testOne(length int, updates string, ans string) {
