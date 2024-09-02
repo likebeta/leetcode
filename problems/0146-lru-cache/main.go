@@ -1,31 +1,24 @@
 package main
 
 import (
-	"fmt"
 	"leetcode/helper"
-	"strings"
 )
 
-type Node = helper.DoubleListNode
+type Node = helper.LinkedListNode
+type LinkedList = helper.LinkedList
 
 // LRUCache LRU 缓存
 type LRUCache struct {
-	capacity int
-	mapping  map[int]*Node
-	head     *Node
-	tail     *Node
+	capacity   int
+	mapping    map[int]*Node
+	linkedList *LinkedList
 }
 
 func Constructor(capacity int) LRUCache {
-	var head, tail Node
-	head.Next = &tail
-	tail.Prev = &head
-
 	lruCache := LRUCache{}
 	lruCache.capacity = capacity
 	lruCache.mapping = make(map[int]*Node, capacity)
-	lruCache.head = &head
-	lruCache.tail = &tail
+	lruCache.linkedList = helper.NewLinkedList()
 	return lruCache
 }
 
@@ -45,45 +38,23 @@ func (this *LRUCache) Put(key int, value int) {
 	}
 
 	if len(this.mapping) == this.capacity {
-		delete(this.mapping, this.tail.Prev.Key)
-		this.removeNode(this.tail.Prev)
+		node := this.linkedList.RemoveLast()
+		delete(this.mapping, node.Key)
 	}
 	node := &Node{Key: key, Val: value}
-	this.insertFirst(node)
+	this.linkedList.InsertFirst(node)
 	this.mapping[key] = node
 }
 
 func (this *LRUCache) touch(node *Node) {
-	this.removeNode(node)
-	this.insertFirst(node)
-}
-
-func (this *LRUCache) insertFirst(node *Node) {
-	node.Prev, node.Next = this.head, this.head.Next
-	this.head.Next, this.head.Next.Prev = node, node
-}
-
-func (this *LRUCache) removeNode(node *Node) {
-	node.Prev.Next = node.Next
-	node.Next.Prev = node.Prev
+	this.linkedList.Remove(node)
+	this.linkedList.InsertFirst(node)
 }
 
 func (this *LRUCache) dump() {
-	{
-		var lines []string
-		for node := this.head; node != nil; node = node.Next {
-			lines = append(lines, fmt.Sprintf("[%d,%d]", node.Key, node.Val))
-		}
-		helper.Log(strings.Join(lines, "=>"))
-	}
-
-	{
-		var lines []string
-		for node := this.tail; node != nil; node = node.Prev {
-			lines = append(lines, fmt.Sprintf("[%d,%d]", node.Key, node.Val))
-		}
-		helper.Log(strings.Join(lines, "<="))
-	}
+	lToR, rToL := this.linkedList.Dump()
+	helper.Log(lToR)
+	helper.Log(rToL)
 }
 
 func main() {
