@@ -28,7 +28,8 @@ var ParseIntArray = parseArray[int]
 var DumpIntArray = dumpArray[int]
 
 var ParseStrArray = parseArray[string]
-var DumpStrArray = dumpArray[string]
+
+var ParseFloatArray = parseArray[float64]
 
 var ParseArray = ParseIntArray
 var DumpArray = DumpIntArray
