@@ -5,9 +5,9 @@ import (
 	"leetcode/helper"
 )
 
-// 二叉树的序列化与反序列化
 type TreeNode = helper.TreeNode
 
+// Codec 二叉树的序列化与反序列化
 type Codec struct {
 }
 
@@ -20,18 +20,17 @@ func (this *Codec) serialize(root *TreeNode) string {
 	if root == nil {
 		return "[]"
 	}
-	i, last, queue := 0, 0, []*TreeNode{root}
-	for i < len(queue) {
-		if queue[i] != nil {
+	nodes, last := []*TreeNode{root}, 0
+	for i := 0; i < len(nodes); i++ {
+		if nodes[i] != nil {
 			last = i
-			queue = append(queue, queue[i].Left, queue[i].Right)
+			nodes = append(nodes, nodes[i].Left, nodes[i].Right)
 		}
-		i++
 	}
-	arr := make([]*int, last+1, last+1)
+	arr := make([]*int, last+1)
 	for i := range arr {
-		if queue[i] != nil {
-			arr[i] = &queue[i].Val
+		if nodes[i] != nil {
+			arr[i] = &nodes[i].Val
 		}
 	}
 	data, _ := json.Marshal(arr)
@@ -45,30 +44,21 @@ func (this *Codec) deserialize(data string) *TreeNode {
 		return nil
 	}
 
-	var root *TreeNode
-	cnt := len(arr)
-	if cnt > 0 {
-		root = &TreeNode{Val: *arr[0]}
-		arr = arr[1:]
-		list := []*TreeNode{root}
-		for len(list) > 0 && len(arr) > 0 {
-			curr := list[0]
-			list = list[1:]
-			if len(arr) > 0 {
-				if arr[0] != nil {
-					curr.Left = &TreeNode{Val: *arr[0]}
-					list = append(list, curr.Left)
-				}
-				arr = arr[1:]
-			}
+	if len(arr) == 0 {
+		return nil
+	}
 
-			if len(arr) > 0 {
-				if arr[0] != nil {
-					curr.Right = &TreeNode{Val: *arr[0]}
-					list = append(list, curr.Right)
-				}
-				arr = arr[1:]
-			}
+	root := &TreeNode{Val: *arr[0]}
+	parents := []*TreeNode{root}
+
+	for j, i := 0, 1; j < len(parents) && i < len(arr); j, i = j+1, i+2 {
+		if arr[i] != nil {
+			parents[j].Left = &TreeNode{Val: *arr[i]}
+			parents = append(parents, parents[j].Left)
+		}
+		if i+1 < len(arr) && arr[i+1] != nil {
+			parents[j].Right = &TreeNode{Val: *arr[i+1]}
+			parents = append(parents, parents[j].Right)
 		}
 	}
 	return root
@@ -77,13 +67,14 @@ func (this *Codec) deserialize(data string) *TreeNode {
 func testOne(s string) {
 	root := helper.NewTree(s)
 	obj := Constructor()
-	data := obj.serialize(root)
-	helper.Log(data, s)
-	ans := obj.deserialize(data)
-	helper.Log(ans.Dump(), s)
+	encoded := obj.serialize(root)
+	helper.Assert(encoded == s)
+	decoded := obj.deserialize(encoded)
+	helper.Assert(decoded.Dump() == s)
 }
 
 func main() {
 	testOne("[]")
-	//testOne("[1,2,3,null,null,4,5]")
+	testOne("[1,2,3,null,null,4,5]")
+	testOne("[1,2]")
 }

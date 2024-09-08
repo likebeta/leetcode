@@ -14,40 +14,39 @@ type TreeNode struct {
 	Val   int
 }
 
-func (head *TreeNode) Clone() *TreeNode {
-	return CloneTree(head)
+func (root *TreeNode) Clone() *TreeNode {
+	return CloneTree(root)
 }
 
-func (head *TreeNode) Print(width int) {
-	PrintTree(head, width)
+func (root *TreeNode) Print(width int) {
+	PrintTree(root, width)
 }
 
-func (head *TreeNode) ToArray() []*int {
-	if head == nil {
+func (root *TreeNode) ToArray() []*int {
+	if root == nil {
 		return nil
 	}
-	i, last, queue := 0, 0, []*TreeNode{head}
-	for i < len(queue) {
-		if queue[i] != nil {
+	nodes, last := []*TreeNode{root}, 0
+	for i := 0; i < len(nodes); i++ {
+		if nodes[i] != nil {
 			last = i
-			queue = append(queue, queue[i].Left, queue[i].Right)
+			nodes = append(nodes, nodes[i].Left, nodes[i].Right)
 		}
-		i++
 	}
-	arr := make([]*int, last+1, last+1)
+	arr := make([]*int, last+1)
 	for i := range arr {
-		if queue[i] != nil {
-			arr[i] = &queue[i].Val
+		if nodes[i] != nil {
+			arr[i] = &nodes[i].Val
 		}
 	}
 	return arr
 }
 
-func (head *TreeNode) Dump() string {
-	if head == nil {
+func (root *TreeNode) Dump() string {
+	if root == nil {
 		return "[]"
 	}
-	arr := head.ToArray()
+	arr := root.ToArray()
 	data, err := json.Marshal(arr)
 	if err != nil {
 		log.Panic("dump failed:", err)
@@ -55,11 +54,11 @@ func (head *TreeNode) Dump() string {
 	return string(data)
 }
 
-func (head *TreeNode) DumpNode() string {
-	if head == nil {
+func (root *TreeNode) DumpNode() string {
+	if root == nil {
 		return "null"
 	} else {
-		return strconv.Itoa(head.Val)
+		return strconv.Itoa(root.Val)
 	}
 }
 
