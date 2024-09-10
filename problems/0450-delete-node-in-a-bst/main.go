@@ -23,24 +23,47 @@ func deleteNode(root *TreeNode, key int) *TreeNode {
 			return root.Left
 		}
 
-		rightMin := root.Right
-		for rightMin.Left != nil {
-			rightMin = rightMin.Left
-		}
-		root.Val = rightMin.Val
-		root.Right = deleteNode(root.Right, rightMin.Val)
+		switchWithRightMin(root)
+		// switchWithLeftMax(root)
 	}
 	return root
 }
 
-func testOne(in string, key int) {
+func switchWithRightMin(root *TreeNode) {
+	rightMin := root.Right
+	for rightMin.Left != nil {
+		rightMin = rightMin.Left
+	}
+	root.Val = rightMin.Val
+	root.Right = deleteNode(root.Right, rightMin.Val)
+}
+
+func switchWithLeftMax(root *TreeNode) {
+	leftMax := root.Left
+	for leftMax.Right != nil {
+		leftMax = leftMax.Right
+	}
+	root.Val = leftMax.Val
+	root.Left = deleteNode(root.Left, leftMax.Val)
+}
+
+func testOne(in string, key int, ans string, others ...string) {
 	t := helper.ParseTree(in)
 	t = deleteNode(t, key)
-	helper.LogF("%s delete %d => %s", in, key, t.Dump())
+	s := t.Dump()
+	helper.LogF("%s delete %d => %s", in, key, s)
+
+	yes := ans == s
+	for i := 0; !yes && i < len(others); i++ {
+		if others[i] == s {
+			yes = true
+		}
+	}
+	helper.Assert(yes)
 }
 
 func main() {
-	testOne("[5,3,6,2,4,null,7]", 3)
-	testOne("[5,3,6,2,4,null,7]", 0)
-	testOne("[]", 0)
+	testOne("[5,3,6,2,4,null,7]", 3, "[5,2,6,null,4,null,7]", "[5,4,6,2,null,null,7]")
+	testOne("[5,3,6,2,4,null,7]", 0, "[5,3,6,2,4,null,7]")
+	testOne("[]", 0, "[]")
 }
