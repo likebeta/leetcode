@@ -5,12 +5,13 @@ import (
 	"math/rand"
 )
 
-// 快速排序
+// 排序数组
 func sortArray(nums []int) []int {
 	doQuicksort(nums, 0, len(nums)-1)
 	return nums
 }
 
+// 快速排序
 func doQuicksort(arr []int, left, right int) {
 	if left < right {
 		pivot := partition(arr, left, right)
@@ -73,11 +74,58 @@ func partition3(arr []int, left, right int) int {
 	return pivot
 }
 
+func sortArray2(nums []int) []int {
+	tmp := make([]int, len(nums))
+	mergeSort(tmp, nums, 0, len(nums)-1)
+	return nums
+}
+
+// 归并排序
+func mergeSort(tmp, nums []int, left, right int) {
+	if left < right {
+		mid := left + (right-left)/2
+		mergeSort(tmp, nums, left, mid)
+		mergeSort(tmp, nums, mid+1, right)
+		merge(tmp, nums, left, mid, right)
+	}
+}
+
+func merge(tmp, nums []int, left, mid, right int) {
+	for i := left; i <= right; i++ {
+		tmp[i] = nums[i]
+	}
+
+	i, j := left, mid+1
+	for idx := left; idx <= right; idx++ {
+		if i > mid {
+			// 左侧已合并完
+			nums[idx], j = tmp[j], j+1
+		} else if j > right {
+			// 右侧已合并完
+			nums[idx], i = tmp[i], i+1
+		} else if tmp[i] > tmp[j] {
+			// 左侧>右侧
+			nums[idx], j = tmp[j], j+1
+		} else {
+			// 左侧<=右侧
+			nums[idx], i = tmp[i], i+1
+		}
+	}
+}
+
 func testOne(in string, ans string) {
-	arr := helper.ParseArray(in)
-	sortArray(arr)
-	result := helper.DumpArray(arr)
-	helper.Assert(result == ans)
+	{
+		arr := helper.ParseArray(in)
+		sortArray(arr)
+		result := helper.DumpArray(arr)
+		helper.Assert(result == ans)
+	}
+	{
+		arr := helper.ParseArray(in)
+		sortArray2(arr)
+		result := helper.DumpArray(arr)
+		helper.Assert(result == ans)
+	}
 }
 
 func main() {
