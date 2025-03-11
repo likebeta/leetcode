@@ -26,6 +26,11 @@ func shufflePivot(arr []int, left, right int) {
 }
 
 // 挖坑法
+// 最终停止的条件是left==right，并且left处是等待填充的坑，解释如下：
+//  1. 外层for循环开始时，left处是上次或者初始化留下的坑
+//  2. 如果right左移导致left==right，此时left不再右移，left处依然是坑
+//  3. 如果left右移导致left==right，right所在值已填入右移前left处，当前是坑，而left==right，所以left处也是坑
+//  4. 如果right左移和left右移后left<right，left处先填，right后填，回到1
 func partition(arr []int, left, right int) int {
 	shufflePivot(arr, left, right)
 	pivot := arr[left]
@@ -44,6 +49,11 @@ func partition(arr []int, left, right int) int {
 }
 
 // 交换法
+// 最终停止的条件是left==right，并且left处<=arr[pivot]，解释如下：
+//  1. 外层for循环开始时，left处是上次交换后或者初始化 <=arr[pivot]
+//  2. 如果right左移导致left==right，此时left不再右移，left处保持不变依然 <= arr[pivot]
+//  3. 如果left右移导致left==right，由于right结束条件是<arr[pivot]，而left==right，所以left处也<arr[poivt]
+//  4. 如果right左移和left右移后left<right，交换后，left处是交换前right处值(结束条件是<arr[pivot]), 回到1
 func partition2(arr []int, left, right int) int {
 	shufflePivot(arr, left, right)
 	pivot := left
@@ -61,6 +71,7 @@ func partition2(arr []int, left, right int) int {
 }
 
 // 顺序遍历法
+// 最终停止的条件是i==left, 此时 (left,pivot] <= arr[left] < (pivot,right]
 func partition3(arr []int, left, right int) int {
 	shufflePivot(arr, left, right)
 	pivot := right
