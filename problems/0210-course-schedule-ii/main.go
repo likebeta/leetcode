@@ -10,10 +10,10 @@ func findOrder(numCourses int, prerequisites [][]int) []int { // 深度优先
 		ans      []int
 		hasCycle bool
 		dfs      func(int) bool
+		edges    = make([][]int, numCourses) // 邻接表，表示图的结构
+		visited  = make([]int, numCourses)   // 记录节点访问状态：0: 未访问 1: 正在访问（当前DFS路径中）2: 已完成访问
 	)
 
-	edges := make([][]int, numCourses, numCourses)
-	visited := make([]int, numCourses, numCourses)
 	for i := range prerequisites {
 		edges[prerequisites[i][1]] = append(edges[prerequisites[i][1]], prerequisites[i][0])
 	}
@@ -52,8 +52,8 @@ func findOrder(numCourses int, prerequisites [][]int) []int { // 深度优先
 
 func findOrder2(numCourses int, prerequisites [][]int) []int { // 广度优先
 	var ans []int
-	edges := make([][]int, numCourses, numCourses)
-	inDegree := make([]int, numCourses, numCourses)
+	edges := make([][]int, numCourses)
+	inDegree := make([]int, numCourses)
 	for i := range prerequisites {
 		edges[prerequisites[i][1]] = append(edges[prerequisites[i][1]], prerequisites[i][0])
 		inDegree[prerequisites[i][0]]++
@@ -81,10 +81,21 @@ func findOrder2(numCourses int, prerequisites [][]int) []int { // 广度优先
 	return ans
 }
 
+func testOne(num int, in string) {
+	helper.Log("--------------------------------------")
+	{
+		matrix := helper.ParseIntMatrix(in)
+		helper.Log(findOrder(num, matrix))
+	}
+
+	{
+		matrix := helper.ParseIntMatrix(in)
+		helper.Log(findOrder2(num, matrix))
+	}
+	helper.Log("--------------------------------------")
+}
+
 func main() {
-	var pq [][]int
-	pq = [][]int{{1, 0}}
-	helper.Log(findOrder(2, pq), findOrder2(2, pq))
-	pq = [][]int{{1, 0}, {2, 0}, {3, 1}, {3, 2}}
-	helper.Log(findOrder(4, pq), findOrder2(4, pq))
+	testOne(2, "[[1,0]]")
+	testOne(4, "[[1,0], [2, 0], [3, 1], [3, 2]]")
 }
