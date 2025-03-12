@@ -1,39 +1,87 @@
 package main
 
-import "leetcode/helper"
+import (
+	"leetcode/helper"
+)
 
 // 判断二分图
 func isBipartite(graph [][]int) bool {
-	n := len(graph)
-	color := make([]int, n)
-	for i := 0; i < n; i++ {
-		if color[i] == 0 {
-			queue := []int{i}
-			color[i] = 1
-			for i := 0; i < len(queue); i++ {
-				node := queue[i]
-				cNei := 1
-				if color[node] == cNei {
-					cNei = 3 - cNei
-				}
-				for _, neighbor := range graph[node] {
-					if color[neighbor] == 0 {
-						queue = append(queue, neighbor)
-						color[neighbor] = cNei
-					} else if color[neighbor] != cNei {
-						return false
-					}
-				}
+	var (
+		ok     = true
+		n      = len(graph)
+		colors = make([]int, n) // 0表示未染色，1和2表示不同颜色
+	)
+
+	for vertex := 0; vertex < n && ok; vertex++ {
+		if colors[vertex] == 0 {
+			ok = bfs(vertex, graph, colors)
+		}
+	}
+
+	return ok
+}
+
+func bfs(vertex int, graph [][]int, colors []int) bool {
+	queue := []int{vertex}
+	colors[vertex] = 1
+	for i := 0; i < len(queue); i++ {
+		node := queue[i]
+		cNei := 3 - colors[node] // 1 or 2
+		for _, neighbor := range graph[node] {
+			if colors[neighbor] == 0 {
+				colors[neighbor] = cNei
+				queue = append(queue, neighbor)
+			} else if colors[neighbor] != cNei {
+				return false
 			}
+		}
+	}
+
+	return true
+}
+
+func isBipartite2(graph [][]int) bool {
+	var (
+		ok     = true
+		n      = len(graph)
+		colors = make([]int, n) // 0表示未染色，1和2表示不同颜色
+	)
+
+	for vertex := 0; vertex < n && ok; vertex++ {
+		if colors[vertex] == 0 {
+			colors[vertex] = 1
+			ok = dfs(vertex, graph, colors)
+		}
+	}
+
+	return ok
+}
+
+func dfs(vertex int, graph [][]int, colors []int) bool {
+	cNei := 3 - colors[vertex] // 1 or 2
+	for _, neighbor := range graph[vertex] {
+		if colors[neighbor] == 0 {
+			colors[neighbor] = cNei
+			if !dfs(neighbor, graph, colors) {
+				return false
+			}
+		} else if colors[neighbor] != cNei {
+			return false
 		}
 	}
 	return true
 }
 
 func testOne(in string, ans bool) {
-	var matrix [][]int
-	helper.Load([]byte(in), &matrix)
-	helper.Assert(isBipartite(matrix) == ans)
+	{
+		matrix := helper.ParseIntMatrix(in)
+		helper.Assert(isBipartite(matrix) == ans)
+	}
+
+	{
+		matrix := helper.ParseIntMatrix(in)
+		helper.Assert(isBipartite2(matrix) == ans)
+	}
 }
 
 func main() {
