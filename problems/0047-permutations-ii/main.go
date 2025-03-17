@@ -2,6 +2,7 @@ package main
 
 import (
 	"leetcode/helper"
+	"slices"
 	"sort"
 )
 
@@ -18,18 +19,17 @@ func permuteUnique(nums []int) [][]int {
 
 	backtrack = func(i int) {
 		if i == len(nums) {
-			one := make([]int, len(record))
-			copy(one, record)
-			ans = append(ans, one)
+			ans = append(ans, slices.Clone(record))
 			return
 		}
 		for j := 0; j < len(nums); j++ {
+			// 如果有相同元素只选择第一个， 因为选择第二个的情况被选择第一个包含了
 			if visited[j] || (j > 0 && nums[j] == nums[j-1] && !visited[j-1]) {
 				continue
 			}
 			record[i] = nums[j]
 			visited[j] = true
-			backtrack(i+1)
+			backtrack(i + 1)
 			visited[j] = false
 		}
 	}
