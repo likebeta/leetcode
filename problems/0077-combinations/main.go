@@ -19,20 +19,48 @@ func combine(n int, k int) [][]int {
 			return
 		}
 
-		if index > n {
-			return
-		}
+		if index <= n {
+			// 不包含当前元素
+			dfs(index+1, record)
 
-		dfs(index+1, record)
-		record = append(record, index)
-		dfs(index+1, record)
+			// 包含当前元素
+			record = append(record, index)
+			dfs(index+1, record)
+		}
 	}
 
 	dfs(1, nil)
 	return ans
 }
 
-func combine2(n int, k int) (ans [][]int) {
+func combine2(n int, k int) [][]int {
+	var (
+		trace     []int
+		result    [][]int
+		backtrack func(int)
+	)
+
+	backtrack = func(start int) {
+		if len(trace) == k {
+			tmp := make([]int, len(trace))
+			copy(tmp, trace)
+			result = append(result, tmp)
+			return
+		}
+
+		for i := start; i <= n; i++ {
+			trace = append(trace, i)
+			backtrack(i + 1)
+			trace = trace[:len(trace)-1]
+		}
+	}
+
+	backtrack(1)
+
+	return result
+}
+
+func combine3(n int, k int) (ans [][]int) {
 	// 初始化
 	// 将 temp 中 [0, k - 1] 每个位置 i 设置为 i + 1，即 [0, k - 1] 存 [1, k]
 	// 末尾加一位 n + 1 作为哨兵
@@ -60,6 +88,8 @@ func combine2(n int, k int) (ans [][]int) {
 func main() {
 	helper.Log(combine(4, 2))
 	helper.Log(combine2(4, 2))
+	helper.Log(combine3(4, 2))
 	helper.Log(combine(5, 4))
 	helper.Log(combine2(5, 4))
+	helper.Log(combine3(5, 4))
 }
